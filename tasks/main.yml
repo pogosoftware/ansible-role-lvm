@@ -20,7 +20,7 @@
     pvs: "{{ item.pvs }}"
     state: present
   with_items: "{{ vgs }}"
- 
+
 - name: "Create LVs"
   lvol:
     vg: "{{ item.0.vg }}"

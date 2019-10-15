@@ -13,6 +13,5 @@ galaxy_info:
     - name: Ubuntu
       versions:
         - all
-  
-  galaxy_tags: ['lvm', 'ubuntu lvm', 'pogosoftware']
-  
+
+  galaxy_tags: ['lvm', 'pogosoftware']
