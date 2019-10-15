@@ -1,0 +1,16 @@
+---
+- hosts: localhost
+  become: yes
+  roles:
+    - lvm
+  vars:
+    vgs:
+    - vg: data
+      pvs: /dev/sdc
+      lvs:
+        - lv: docker
+          size: +80%VG
+          path: /var/lib/docker
+        - lv: logs
+          size: +20%VG
+          path: /var/log

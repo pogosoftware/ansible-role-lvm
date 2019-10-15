@@ -1,0 +1,55 @@
+---
+
+- name: Get FS stats
+  stat:
+    path: "{{ item.1.path }}"
+  register: fs_stats
+  with_subelements:
+    - "{{ vgs }}"
+    - lvs
+
+- name: Collect information if path exists
+  set_fact:
+    fs_exists: "{{ fs_exists|default({}) | combine( {item.invocation.module_args.path: item.stat.exists} ) }}"
+  with_items:
+    - "{{ fs_stats.results }}"
+
+- name: "Create LVGs"
+  lvg:
+    vg: "{{ item.vg }}"
+    pvs: "{{ item.pvs }}"
+    state: present
+  with_items: "{{ vgs }}"
+ 
+- name: "Create LVs"
+  lvol:
+    vg: "{{ item.0.vg }}"
+    lv: "{{ item.1.lv }}"
+    size: "{{ item.1.size }}"
+    state: present
+  when: not fs_exists[item.1.path]
+  with_subelements:
+    - "{{ vgs }}"
+    - lvs
+
+- name: "Create FS"
+  filesystem:
+    fstype: ext4
+    dev: "/dev/{{ item.0.vg }}/{{ item.1.lv }}"
+    opts: -m 0
+  when: not fs_exists[item.1.path]
+  with_subelements:
+    - "{{ vgs }}"
+    - lvs
+
+- name: "Add FS to fstab"
+  mount:
+    src: "/dev/{{ item.0.vg }}/{{ item.1.lv }}"
+    path: "{{ item.1.path }}"
+    fstype: ext4
+    boot: yes
+    opts: defaults
+    state: mounted
+  with_subelements:
+    - "{{ vgs }}"
+    - lvs
