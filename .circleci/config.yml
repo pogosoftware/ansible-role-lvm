@@ -5,6 +5,9 @@ jobs:
       - image: python:3-slim
     steps:
       - checkout
-      - run: pip install ansible-lint
+      - run: pip install ansible-lint yamllint
       - run: ansible-lint --version
       - run: ansible-lint ./**/*.yml
+      - run: yamllint --version
+      - run: curl -sSL https://raw.githubusercontent.com/ansible/galaxy/master/galaxy/importer/linters/yaml lint.yaml --output ./yamllint.yml
+      - run: yamllint -c ./yamllint.yml ./**/*.yml
