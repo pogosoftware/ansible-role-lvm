@@ -1,0 +1,9 @@
+version: 2.1
+jobs:
+  build:
+    docker:
+      - image: pogosoftware/ansible-lint:0.1.0
+    steps:
+      - checkout
+      - run: ansible-lint ./**/*.yml
+      - run: yamllint -c /etc/ansible/yamllint.yml ./**/*.yml
