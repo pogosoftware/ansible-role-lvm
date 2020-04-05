@@ -2,12 +2,8 @@ version: 2.1
 jobs:
   build:
     docker:
-      - image: python:3-slim
+      - image: pogosoftware/ansible-lint:0.1.0
     steps:
       - checkout
-      - run: pip install ansible-lint yamllint
-      - run: ansible-lint --version
       - run: ansible-lint ./**/*.yml
-      - run: yamllint --version
-      - run: curl -sSL https://raw.githubusercontent.com/ansible/galaxy/master/galaxy/importer/linters/yaml lint.yaml --output ./yamllint.yml
-      - run: yamllint -c ./yamllint.yml ./**/*.yml
+      - run: yamllint -c /etc/ansible/yamllint.yml ./**/*.yml
