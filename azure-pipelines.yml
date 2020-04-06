@@ -1,0 +1,17 @@
+trigger:
+- master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- script: |
+    pip install ansible-lint yamllint
+    wget --quiet https://raw.githubusercontent.com/ansible/galaxy/master/galaxy/importer/linters/yamllint.yaml -O /etc/ansible/yamllint.yaml
+  displayName: 'Install ansible-lint and yamllint'
+
+- script: ansible-lint ./**/*.yml
+  displayName: Run Ansible Lint
+
+- script:  yamllint -c /etc/ansible/yamllint.yaml ./**/*.yml
+  displayName: Run Yaml Lint
