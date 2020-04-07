@@ -6,8 +6,10 @@ pool:
 
 steps:
 - script: |
-    pip install ansible-lint yamllint
-    wget --quiet https://raw.githubusercontent.com/ansible/galaxy/master/galaxy/importer/linters/yamllint.yaml -O /etc/ansible/yamllint.yaml
+    sudo apt-get -qq update
+    sudo apt-get -qq upgrade -y
+    sudo pip install ansible-lint yamllint
+    sudo wget --quiet https://raw.githubusercontent.com/ansible/galaxy/master/galaxy/importer/linters/yamllint.yaml -O /etc/ansible/yamllint.yaml
   displayName: 'Install ansible-lint and yamllint'
 
 - script: ansible-lint ./**/*.yml
