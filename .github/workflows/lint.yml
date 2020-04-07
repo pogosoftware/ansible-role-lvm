@@ -17,8 +17,8 @@ jobs:
     - name: Run ansible-lint
       uses: docker://pogosoftware/ansible-lint:0.2.2
       with:
-        args: .
+        args: ansible-lint .
     - name: Run yamllint
       uses: docker://pogosoftware/ansible-lint:0.2.2
       with:
-        args: -c /etc/ansible/yamllint.yaml .
+        args: yamllint -c /etc/ansible/yamllint.yaml .
