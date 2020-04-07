@@ -1,0 +1,24 @@
+name: Ansible Role LVM lint
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Run ansible-lint
+      uses: docker://pogosoftware/ansible-lint:0.2.2
+      with:
+        args: ansible-lint ./**/*.yml
+    - name: Run yamllint
+      uses: docker://pogosoftware/ansible-lint:0.2.2
+      with:
+        args: yamllint -c /etc/ansible/yamllint.yaml ./**/*.yml
