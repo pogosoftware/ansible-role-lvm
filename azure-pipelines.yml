@@ -4,14 +4,9 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
-steps:
-- script: |
-    sudo apt-get -qq update
-    sudo apt-get -qq upgrade -y
-    sudo pip install ansible-lint yamllint
-    sudo wget --quiet https://raw.githubusercontent.com/ansible/galaxy/master/galaxy/importer/linters/yamllint.yaml -O /etc/ansible/yamllint.yaml
-  displayName: 'Install ansible-lint and yamllint'
+container: pogosoftware/ansible-lint:0.2.0
 
+steps:
 - script: ansible-lint ./**/*.yml
   displayName: Run Ansible Lint
 
