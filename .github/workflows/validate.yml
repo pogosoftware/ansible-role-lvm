@@ -18,7 +18,7 @@ jobs:
       uses: docker://cytopia/ansible-lint
       with:
         args: .
-		
+
     - name: Run yamllint
       uses: docker://cytopia/yamllint
       with:
