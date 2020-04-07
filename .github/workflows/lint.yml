@@ -15,10 +15,10 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
     - name: Run ansible-lint
-      uses: docker://cytopia/ansible-lint
+      uses: docker://docker://pogosoftware/ansible-lint:0.2.2
       with:
-        args: .
+        args: '*.yml'
     - name: Run yamllint
-      uses: docker://cytopia/yamllint
+      uses: docker://docker://pogosoftware/ansible-lint:0.2.2
       with:
-        args: .
+        args: '-c /etc/ansible/yamllint.yaml *.yml'
